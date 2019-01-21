@@ -1,3 +1,5 @@
+import SIP from 'sip.js'
+
 const options = {
   media: {
     local: {
@@ -9,7 +11,7 @@ const options = {
   },
   ua: {}
 }
-const simple = new window.SIP.Web.Simple(options)
+const simple = new SIP.Web.Simple(options)
 
 const startButton = document.getElementById('startCall')
 startButton.addEventListener('click', function () {

@@ -1,12 +1,12 @@
 {
   "scripts": {
-    "start": "http-server . -o -c-1"
+    "dev": "parcel index.html"
   },
   "dependencies": {
     "sip.js": "^0.12.0"
   },
   "devDependencies": {
-    "http-server": "^0.11.1",
+    "parcel-bundler": "^1.11.0",
     "standard": "^12.0.1",
     "yarn-upgrade-all": "^0.5.0"
   }
