@@ -13,10 +13,11 @@
 var options = {
   media: {
     local: {
-      video: document.getElementById('localVideo')
+      // video: document.getElementById('localVideo')
+      audio: document.getElementById('remoteVideo')
     },
     remote: {
-      video: document.getElementById('remoteVideo'),
+      // video: document.getElementById('remoteVideo'),
       // This is necessary to do an audio/video call as opposed to just a video call
       audio: document.getElementById('remoteVideo')
     }
