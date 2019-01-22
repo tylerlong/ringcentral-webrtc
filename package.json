@@ -3,6 +3,8 @@
     "dev": "parcel index.html"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "ringcentral-js-concise": "^0.7.6",
     "sip.js": "^0.12.0"
   },
   "devDependencies": {
