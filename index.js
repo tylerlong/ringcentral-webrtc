@@ -2,7 +2,11 @@ import 'babel-polyfill'
 import SIP from 'sip.js'
 import RingCentral from 'ringcentral-js-concise'
 
-const rc = new RingCentral(process.env.RINGCENTRAL_CLIENT_ID, process.env.RINGCENTRAL_CLIENT_SECRET, process.env.RINGCENTRAL_SERVER_URL)
+const rc = new RingCentral(
+  process.env.RINGCENTRAL_CLIENT_ID,
+  process.env.RINGCENTRAL_CLIENT_SECRET,
+  process.env.RINGCENTRAL_SERVER_URL
+)
 
 let ua
 
@@ -38,9 +42,12 @@ let ua
   ua.register()
 })()
 
+let session
 const startButton = document.getElementById('startCall')
 startButton.addEventListener('click', function () {
-  ua.invite('sip:+16506417402@sip.devtest.ringcentral.com', {
+  // ua.invite('sip:+16506417402@sip.devtest.ringcentral.com', {
+  // ua.invite('sip:+16579991394@sip.devtest.ringcentral.com', {
+  session = ua.invite('sip:+16504377931@sip.devtest.ringcentral.com', {
     sessionDescriptionHandlerOptions: {
       constraints: {
         audio: true,
@@ -52,5 +59,5 @@ startButton.addEventListener('click', function () {
 
 const endButton = document.getElementById('endCall')
 endButton.addEventListener('click', function () {
-  ua.stop()
+  session.terminate()
 }, false)
