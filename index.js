@@ -4,6 +4,8 @@ import RingCentral from 'ringcentral-js-concise'
 
 const rc = new RingCentral(process.env.RINGCENTRAL_CLIENT_ID, process.env.RINGCENTRAL_CLIENT_SECRET, process.env.RINGCENTRAL_SERVER_URL)
 
+let ua
+
 ;(async () => {
   await rc.authorize({
     username: process.env.RINGCENTRAL_USERNAME,
@@ -14,29 +16,41 @@ const rc = new RingCentral(process.env.RINGCENTRAL_CLIENT_ID, process.env.RINGCE
     sipInfo: [{ transport: 'WSS' }]
   })
   console.log(r.data)
-})()
+  const sipInfo = r.data.sipInfo[0]
 
-const options = {
-  media: {
-    local: {
-      audio: document.getElementById('localVideo')
+  ua = new SIP.UA({
+    uri: `sip:${sipInfo.username}@${sipInfo.domain}`,
+    transportOptions: {
+      wsServers: [`${sipInfo.transport.toLowerCase()}://${sipInfo.outboundProxy}`]
     },
-    remote: {
-      audio: document.getElementById('remoteVideo')
+    authorizationUser: sipInfo.authorizationId,
+    password: sipInfo.password,
+    media: {
+      local: {
+        audio: document.getElementById('localVideo')
+      },
+      remote: {
+        audio: document.getElementById('remoteVideo')
+      }
     }
-  },
-  ua: {}
-}
-const simple = new SIP.Web.Simple(options)
+  })
+  ua.start()
+  ua.register()
+})()
 
 const startButton = document.getElementById('startCall')
 startButton.addEventListener('click', function () {
-  simple.call('welcome@onsip.com')
-  window.alert('Call Started')
+  ua.invite('sip:+16506417402@sip.devtest.ringcentral.com', {
+    sessionDescriptionHandlerOptions: {
+      constraints: {
+        audio: true,
+        video: false
+      }
+    }
+  })
 }, false)
 
 const endButton = document.getElementById('endCall')
 endButton.addEventListener('click', function () {
-  simple.hangup()
-  window.alert('Call Ended')
+  ua.stop()
 }, false)
