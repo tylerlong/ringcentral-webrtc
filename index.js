@@ -39,15 +39,16 @@ let ua
     }
   })
   ua.start()
-  ua.register()
+  // ua.register()
 })()
 
 let session
 const startButton = document.getElementById('startCall')
 startButton.addEventListener('click', function () {
-  // ua.invite('sip:+16506417402@sip.devtest.ringcentral.com', {
-  // ua.invite('sip:+16579991394@sip.devtest.ringcentral.com', {
-  session = ua.invite('sip:+16504377931@sip.devtest.ringcentral.com', {
+  ua.start()
+  session = ua.invite('sip:+16506417402@sip.devtest.ringcentral.com', {
+  // session = ua.invite('sip:+16579991394@sip.devtest.ringcentral.com', {
+  // session = ua.invite('sip:+16504377931@sip.devtest.ringcentral.com', {
     sessionDescriptionHandlerOptions: {
       constraints: {
         audio: true,
@@ -60,4 +61,5 @@ startButton.addEventListener('click', function () {
 const endButton = document.getElementById('endCall')
 endButton.addEventListener('click', function () {
   session.terminate()
+  ua.stop()
 }, false)
