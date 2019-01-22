@@ -20,24 +20,24 @@ let ua
   const r = await rc.post('/restapi/v1.0/client-info/sip-provision', {
     sipInfo: [{ transport: 'WSS' }]
   })
-  console.log(r.data)
   sipInfo = r.data.sipInfo[0]
 
   ua = new SIP.UA({
     uri: `sip:${sipInfo.username}@${sipInfo.domain}`,
+    authorizationUser: sipInfo.authorizationId,
+    autostart: false,
+    password: sipInfo.password,
     transportOptions: {
       wsServers: [`${sipInfo.transport.toLowerCase()}://${sipInfo.outboundProxy}`]
-    },
-    authorizationUser: sipInfo.authorizationId,
-    password: sipInfo.password,
-    media: {
-      local: {
-        audio: document.getElementById('localVideo')
-      },
-      remote: {
-        audio: document.getElementById('remoteVideo')
-      }
     }
+    // media: {
+    //   local: {
+    //     audio: document.getElementById('localVideo')
+    //   },
+    //   remote: {
+    //     audio: document.getElementById('remoteVideo')
+    //   }
+    // }
   })
   ua.start()
 })()
