@@ -2,8 +2,6 @@ import 'babel-polyfill'
 import SIP from 'sip.js'
 import RingCentral from 'ringcentral-js-concise'
 
-import config from './config'
-
 const rc = new RingCentral(
   process.env.RINGCENTRAL_CLIENT_ID,
   process.env.RINGCENTRAL_CLIENT_SECRET,
@@ -48,7 +46,7 @@ let session
 const startButton = document.getElementById('startCall')
 startButton.addEventListener('click', function () {
   ua.start()
-  session = ua.invite(`sip:${config.receiver}@${sipInfo.domain}`, {
+  session = ua.invite(`sip:${process.env.RINGCENTRAL_RECEIVER}@${sipInfo.domain}`, {
     sessionDescriptionHandlerOptions: {
       constraints: {
         audio: true,

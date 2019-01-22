@@ -1,0 +1,3 @@
+--ignore-dir=.cache
+--ignore-dir=dist
+--ignore-file=match:yarn\.lock
