@@ -2,12 +2,15 @@ import 'babel-polyfill'
 import SIP from 'sip.js'
 import RingCentral from 'ringcentral-js-concise'
 
+import config from './config'
+
 const rc = new RingCentral(
   process.env.RINGCENTRAL_CLIENT_ID,
   process.env.RINGCENTRAL_CLIENT_SECRET,
   process.env.RINGCENTRAL_SERVER_URL
 )
 
+let sipInfo
 let ua
 
 ;(async () => {
@@ -20,7 +23,7 @@ let ua
     sipInfo: [{ transport: 'WSS' }]
   })
   console.log(r.data)
-  const sipInfo = r.data.sipInfo[0]
+  sipInfo = r.data.sipInfo[0]
 
   ua = new SIP.UA({
     uri: `sip:${sipInfo.username}@${sipInfo.domain}`,
@@ -39,16 +42,13 @@ let ua
     }
   })
   ua.start()
-  // ua.register()
 })()
 
 let session
 const startButton = document.getElementById('startCall')
 startButton.addEventListener('click', function () {
   ua.start()
-  session = ua.invite('sip:+16506417402@sip.devtest.ringcentral.com', {
-  // session = ua.invite('sip:+16579991394@sip.devtest.ringcentral.com', {
-  // session = ua.invite('sip:+16504377931@sip.devtest.ringcentral.com', {
+  session = ua.invite(`sip:${config.receiver}@${sipInfo.domain}`, {
     sessionDescriptionHandlerOptions: {
       constraints: {
         audio: true,
