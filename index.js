@@ -45,7 +45,7 @@ let ua
 let session
 const startButton = document.getElementById('startCall')
 startButton.addEventListener('click', function () {
-  ua.start()
+  // ua.start()
   session = ua.invite(`sip:${process.env.RINGCENTRAL_RECEIVER}@${sipInfo.domain}`, {
     sessionDescriptionHandlerOptions: {
       constraints: {
@@ -59,5 +59,5 @@ startButton.addEventListener('click', function () {
 const endButton = document.getElementById('endCall')
 endButton.addEventListener('click', function () {
   session.terminate()
-  ua.stop()
+  // ua.stop()
 }, false)
